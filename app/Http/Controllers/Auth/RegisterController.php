@@ -18,20 +18,20 @@ class RegisterController extends Controller
             'password' => 'required|string|min:8|confirmed',
         ]);
 
-        // Membuat user
+        // Membuat user baru
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => bcrypt($request->password),
         ]);
 
-        // Login setelah registrasi
+        // Login user
         Auth::login($user);
 
         // Kirim email verifikasi
         $user->sendEmailVerificationNotification();
 
-        // Arahkan ke halaman untuk cek email
+        // Redirect ke halaman verifikasi email
         return redirect()->route('verification.notice');
     }
 }
